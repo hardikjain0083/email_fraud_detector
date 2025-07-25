@@ -114,8 +114,8 @@ def intro_page():
         unsafe_allow_html=True
     )
     
-    st.title("Welcome Aboard, Matey! 🏴‍☠️")
-    st.header("A Project by Team Pyrates")
+    st.title(        "Welcome Aboard, Mates! 🏴‍☠️")
+    st.header("TO EMAIL PHISHING DETECTOR \n  A Project by Team Pyrates")
     
     st.info(
         "We are **Team Pyrates**, a crew of digital adventurers navigating the treacherous seas of cyberspace. "
@@ -124,14 +124,15 @@ def intro_page():
     )
     
     st.write("---")
-    st.subheader("Meet the Crew")
+    st.subheader(         "Meet the Crew")
 
     # --- UPDATE THIS SECTION WITH YOUR TEAM MEMBERS ---
     team_members = {
-        "Hardik": "Captain & Lead Developer ⚓",
-        "Member 2": "First Mate & UI/UX Designer 🎨",
-        "Member 3": "Navigator & Data Scientist 🗺️",
-        "Member 4": "Quartermaster & Backend Engineer ⚙️"
+        "Hardik Jain": "24BAI10355",
+        "Divyaraj Rajpurohit": "24BCY10311",
+        "Mishita Tiwari": "24BAI10204",
+        "Vinita Sharma": "24BSA10281",
+        "Priyamvada Tiwari " : "24BCE11480"
     }
     
     cols = st.columns(len(team_members))
