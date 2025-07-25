@@ -28,18 +28,18 @@ def get_base64_of_bin_file(bin_file):
 @st.cache_resource
 def download_nltk_data():
     """Downloads required NLTK data."""
-    try:
-        nltk.data.find('tokenizers/punkt')
-    except LookupError:
-        nltk.download('punkt', quiet=True)
-    try:
-        nltk.data.find('corpora/stopwords')
-    except LookupError:
-        nltk.download('stopwords', quiet=True)
-    try:
-        nltk.data.find('corpora/wordnet')
-    except LookupError:
-        nltk.download('wordnet', quiet=True)
+    packages = ['punkt', 'stopwords', 'wordnet', 'punkt_tab'] # UPDATED: Added 'punkt_tab'
+    for package in packages:
+        try:
+            # Check if the package is already available
+            if package in ['punkt', 'punkt_tab']:
+                 nltk.data.find(f'tokenizers/{package}')
+            else:
+                 nltk.data.find(f'corpora/{package}')
+        except LookupError:
+            # If not available, download it
+            nltk.download(package, quiet=True)
+
 
 @st.cache_resource
 def load_model_and_vectorizer():
