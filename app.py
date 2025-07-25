@@ -115,7 +115,7 @@ def intro_page():
     )
     
     st.title(        "Welcome Aboard, Mates! 🏴‍☠️")
-    st.header("TO EMAIL PHISHING DETECTOR \n  A Project by Team Pyrates")
+    st.header("TO EMAIL PHISHING DETECTOR)
     
     st.info(
         "We are **Team Pyrates**, a crew of digital adventurers navigating the treacherous seas of cyberspace. "
