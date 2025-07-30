@@ -16,22 +16,16 @@ import pytesseract
 
 @st.cache_resource
 def download_nltk_data():
-    """Downloads required NLTK data if not already present."""
+    """
+    Downloads required NLTK data.
+    NLTK's download function is idempotent, meaning it will not re-download
+    data if it's already present and up-to-date. This is a more robust
+    approach than manually checking for the existence of data directories,
+    which was causing issues in some cloud environments.
+    """
     packages = ['punkt', 'stopwords', 'wordnet']
     for package in packages:
-        try:
-            # Check if the package is available
-            if package == 'punkt':
-                # The 'punkt' resource requires both directories. The 'punkt_tab'
-                # directory was causing a LookupError in some cloud environments.
-                # This updated check ensures both are present before skipping a download.
-                nltk.data.find('tokenizers/punkt')
-                nltk.data.find('tokenizers/punkt_tab')
-            else:
-                nltk.data.find(f'corpora/{package}')
-        except LookupError:
-            # If not available, download it quietly
-            nltk.download(package, quiet=True)
+        nltk.download(package, quiet=True)
 
 @st.cache_resource
 def load_model_and_vectorizer():
