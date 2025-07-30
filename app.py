@@ -22,7 +22,11 @@ def download_nltk_data():
         try:
             # Check if the package is available
             if package == 'punkt':
-                nltk.data.find(f'tokenizers/{package}')
+                # The 'punkt' resource requires both directories. The 'punkt_tab'
+                # directory was causing a LookupError in some cloud environments.
+                # This updated check ensures both are present before skipping a download.
+                nltk.data.find('tokenizers/punkt')
+                nltk.data.find('tokenizers/punkt_tab')
             else:
                 nltk.data.find(f'corpora/{package}')
         except LookupError:
@@ -194,8 +198,8 @@ def intro_page():
 
     # --- Updated Team Members Section ---
     team_members = {
-        "Hardik Jain": "",
-        "Divyaraj Rajpurohit": "",
+        "Hardik Jain": "Lead Developer",
+        "Divyaraj Rajpurohit": "UI/UX & Frontend",
     }
 
     cols = st.columns(len(team_members))
