@@ -10,22 +10,34 @@ import nltk
 from PIL import Image
 import pytesseract
 
+# --- Deployment Notes ---
+# 1. For Streamlit Cloud, you MUST create a 'packages.txt' file in your repository
+#    and add the following line to it to install the Tesseract OCR engine:
+#    tesseract-ocr
+#
+# 2. Ensure your 'requirements.txt' file includes all necessary Python packages:
+#    streamlit
+#    scipy
+#    numpy
+#    nltk
+#    Pillow
+#    pytesseract
+#    scikit-learn
+
 # --- Backend Functions and Setup (Loaded only once) ---
-# These functions handle the machine learning model and text processing.
-# They are cached to ensure they only run once per session for better performance.
 
 @st.cache_resource
 def download_nltk_data():
     """
     Downloads required NLTK data.
-    NLTK's download function is idempotent, meaning it will not re-download
-    data if it's already present and up-to-date. This is a more robust
-    approach than manually checking for the existence of data directories,
-    which was causing issues in some cloud environments.
+    The `quiet=False` flag is intentionally set to provide detailed logs during
+    deployment. If NLTK fails to download its data, the error will now be
+    visible in your deployment logs (e.g., on Streamlit Cloud). This is the
+    most common point of failure in deployed environments.
     """
     packages = ['punkt', 'stopwords', 'wordnet']
     for package in packages:
-        nltk.download(package, quiet=True)
+        nltk.download(package, quiet=False)
 
 @st.cache_resource
 def load_model_and_vectorizer():
@@ -40,7 +52,7 @@ def load_model_and_vectorizer():
             loaded_vectorizer = pickle.load(vectorizer_file)
         return loaded_model, loaded_vectorizer
     except FileNotFoundError:
-        st.error("Model or vectorizer file not found. Please ensure they are in the correct directory.")
+        st.error("Model or vectorizer file not found. Please ensure they are in the correct directory and included in your deployment.")
         return None, None
 
 def preprocess_text(text):
@@ -288,7 +300,7 @@ def detector_page():
                             st.text_area("Extracted Text:", extracted_text, height=150)
                             classify_text(extracted_text)
             except pytesseract.TesseractNotFoundError:
-                st.error("Tesseract Error: Tesseract is not installed or not in your system's PATH. Please install it to use the image analysis feature.")
+                st.error("Tesseract Error: Tesseract is not installed or not in your system's PATH. Please install it to use the image analysis feature. If deploying on Streamlit Cloud, add 'tesseract-ocr' to your packages.txt file.")
             except Exception as e:
                 st.error(f"An error occurred while processing the file: {e}")
 
